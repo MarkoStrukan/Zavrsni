@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { ShipWheelIcon } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {axiosInstance} from "../lib/axios";
-import {signup} from "../lib/api";
-import toast from "react-hot-toast";
+import useSignUp from "../hooks/useSignUp";
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -14,15 +11,7 @@ const SignUpPage = () => {
   });
 
 
-  const queryClient = useQueryClient();
-
-  const {mutate: signupMutation, isPending, error} = useMutation({
-    mutationFn: signup,
-    onSuccess: () => {
-      toast.success("Account created successfully");
-      queryClient.invalidateQueries(["authUser"]);
-    },
-  })
+  const { signupMutation, isPending, error } = useSignUp();
 
 
 const [passwordError, setPasswordError] = useState("");
