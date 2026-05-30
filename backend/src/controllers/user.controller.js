@@ -11,7 +11,7 @@ export async function getRecommendedUsers(req, res) {
         const recommendedUsers = await User.find({ 
             $and: [
                 { _id: { $ne: currentUserId } },
-                {$id: {$nin: currentUser.friends} },
+                { _id: {$nin: currentUser.friends} },
                 {isOnboarded: true}
             ]
          });
@@ -92,7 +92,7 @@ export async function acceptFriendRequest (req, res) {
             return res.status(404).json({ message: "Friend request not found." });
         }
 
-        if (friendRequest.recipient.toString() !== req.user._id) {
+        if (friendRequest.recipient.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: "You are not authorized to accept this friend request." });
         }
 
@@ -117,17 +117,17 @@ export async function acceptFriendRequest (req, res) {
 
 export async function getFriendRequests (req, res) {
     try {
-        const incomingRequests = await FriendRequest.find({ 
+        const incomingReqs = await FriendRequest.find({ 
             recipient: req.user._id,
             status: "pending"
         }).populate("sender","fullName profilePic location bio");
 
-        const acceptedRequests = await FriendRequest.find({ 
+        const acceptedReqs = await FriendRequest.find({ 
             sender: req.user._id,
             status: "accepted"
         }).populate("recipient","fullName profilePic");
 
-        res.status(200).json({ incomingRequests, acceptedRequests });
+        res.status(200).json({ incomingReqs, acceptedReqs });
 
     } catch (error) {
         console.log("Error in getFriendRequests controller", error.message);

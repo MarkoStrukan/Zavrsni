@@ -10,6 +10,7 @@ import {
   LoaderIcon,
 } from "lucide-react";
 import { COUNTRIES } from "../constants";
+import ReactCountryFlag from "react-country-flag";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -127,7 +128,7 @@ const OnboardingPage = () => {
                   setFormState({ ...formState, bio: e.target.value })
                 }
                 className="textarea textarea-bordered w-full bg-base-100 h-24 resize-none"
-                placeholder="Tell others about yourself and your language learning goals"
+                placeholder="Tell others about yourself"
               />
             </div>
 
@@ -140,11 +141,10 @@ const OnboardingPage = () => {
               >
                 {formState.location ? (
                   <span className="flex items-center gap-2">
-                    {
-                      COUNTRIES.find(
-                        (c) => c.name === formState.location
-                      )?.flag
-                    }
+                    {(() => {
+                      const c = COUNTRIES.find((c) => c.name === formState.location);
+                      return c ? <ReactCountryFlag countryCode={c.code} svg style={{ width: "1.2em", height: "1.2em" }} /> : null;
+                    })()}
                     {formState.location}
                   </span>
                 ) : (
@@ -182,7 +182,7 @@ const OnboardingPage = () => {
                           }}
                           className="w-full text-left px-3 py-2 hover:bg-base-300 flex items-center gap-2"
                         >
-                          <span>{country.flag}</span>
+                          <ReactCountryFlag countryCode={country.code} svg style={{ width: "1.2em", height: "1.2em" }} />
                           {country.name}
                         </button>
                       </li>

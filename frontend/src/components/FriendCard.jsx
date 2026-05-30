@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ReactCountryFlag from "react-country-flag";
 import { COUNTRIES } from "../constants";
 
 const FriendCard = ({ friend }) => {
@@ -16,7 +17,7 @@ const FriendCard = ({ friend }) => {
 
         {country && (
           <div className="flex items-center gap-1.5 text-sm text-base-content/70 mb-3">
-            <span>{country.flag}</span>
+            <ReactCountryFlag countryCode={country.code} svg style={{ width: "1.2em", height: "1.2em" }} />
             <span>{country.name}</span>
           </div>
         )}

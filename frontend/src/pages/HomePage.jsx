@@ -8,6 +8,7 @@ import {
 } from "../lib/api";
 import { Link } from "react-router";
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
 import { COUNTRIES } from "../constants";
 import FriendCard from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
@@ -75,9 +76,9 @@ const HomePage = () => {
           <div className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Meet New Learners</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Meet New People</h2>
                 <p className="opacity-70">
-                  Discover perfect language exchange partners based on your profile
+                  Explore profiles and connect with people from around the world
                 </p>
               </div>
             </div>
@@ -91,7 +92,7 @@ const HomePage = () => {
             <div className="card bg-base-200 p-6 text-center">
               <h3 className="font-semibold text-lg mb-2">No recommendations available</h3>
               <p className="text-base-content opacity-70">
-                Check back later for new language partners!
+                Check back later for new friends!
               </p>
             </div>
           ) : (
@@ -117,7 +118,12 @@ const HomePage = () => {
                             return (
                               <div className="flex items-center text-xs opacity-70 mt-1 gap-1">
                                 <MapPinIcon className="size-3" />
-                                {country ? `${country.flag} ${country.name}` : user.location}
+                                {country ? (
+                                  <>
+                                    <ReactCountryFlag countryCode={country.code} svg style={{ width: "1.1em", height: "1.1em" }} />
+                                    {country.name}
+                                  </>
+                                ) : user.location}
                               </div>
                             );
                           })()}
@@ -126,7 +132,6 @@ const HomePage = () => {
 
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
 
-                      {/* Action button */}
                       <button
                         className={`btn w-full mt-2 ${
                           hasRequestBeenSent ? "btn-disabled" : "btn-primary"
@@ -151,7 +156,7 @@ const HomePage = () => {
                 );
               })}
             </div>
-          )}
+          )}  
         </section>
       </div>
     </div>
